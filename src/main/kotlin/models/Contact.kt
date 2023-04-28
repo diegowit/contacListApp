@@ -7,5 +7,5 @@ data class Contact(
     var emailAddress: String,
     var company: String? = null,
     var notes: String? = null,
-    var groups: MutableSet<Group> = mutableSetOf()
+    var group: MutableSet<Group> = mutableSetOf()
 )
