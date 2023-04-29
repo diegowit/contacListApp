@@ -7,6 +7,8 @@ data class Group(
     val members: MutableSet<Contact> = mutableSetOf()
 )
 
+
+/*
 class Groups {
     private val groups = mutableListOf<Group>()
     private var lastId = 0
@@ -33,4 +35,5 @@ class Groups {
         lastId += 1
         return lastId
     }
-}
+
+ */

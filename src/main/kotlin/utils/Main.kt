@@ -40,6 +40,22 @@ fun mainMenu() = readNextInt(
          > ==>> """.trimMargin(">"))
 
 
+
+fun addContact(){
+    println("Add Contact")
+}
+
+fun listContacts(){
+    println("list")
+}
+fun updateContact(){
+    println("up Contact")
+}
+
+fun deleteContact(){
+    println("deContact")
+}
+
 fun exitApp() {
     println("Exiting...bye")
     exitProcess(0)

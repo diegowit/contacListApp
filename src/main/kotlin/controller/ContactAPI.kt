@@ -11,6 +11,9 @@ class ContactAPI() {
     private var lastId = 0
     private fun getId() = lastId++
 
+}
+/*
+
     fun add(contact: Contact): Boolean {
         contact.contactId = getId()
         return contacts.add(contact)
@@ -42,4 +45,4 @@ class ContactAPI() {
 
 
 }
-
+*/
