@@ -6,6 +6,9 @@ import utils.ScannerInput.readNextChar
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import kotlin.system.exitProcess
+import java.util.*
+
+val scanner = Scanner(System.`in`)
 
 private val contactAPI = ContactAPI()
 
@@ -24,8 +27,9 @@ fun runMenu() {
     } while (true)
 }
 
-fun mainMenu() = readNextInt(
-    """
+fun mainMenu():Int {
+    return ScannerInput.readNextInt(
+            """
          > -----------------------------------------------------  
          > |               CONTACT LIST APP                     |
          > -----------------------------------------------------  
@@ -38,6 +42,8 @@ fun mainMenu() = readNextInt(
          > |   0) Exit                                          |
          > -----------------------------------------------------  
          > ==>> """.trimMargin(">"))
+}
+
 
 
 
