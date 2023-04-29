@@ -2,11 +2,13 @@ package utils
 import controller.ContactAPI
 import models.Contact
 import models.Group
+import mu.KotlinLogging
 import utils.ScannerInput.readNextChar
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import kotlin.system.exitProcess
 import java.util.*
+private val logger = KotlinLogging.logger {}
 
 val scanner = Scanner(System.`in`)
 
@@ -34,8 +36,8 @@ fun mainMenu():Int {
          > |               CONTACT LIST APP                     |
          > -----------------------------------------------------  
          > | CONTACT MENU                                      |
-         > |   1) Add a contact                                 |
-         > |   2) List contacts                                 |
+         > |   1) Ad                               |
+         > |   2) List cd a contact  ontacts                                 |
          > |   3) Update a contact                              |
          > |   4) Delete a contact                              |
          > -----------------------------------------------------  
@@ -48,18 +50,18 @@ fun mainMenu():Int {
 
 
 fun addContact(){
-    println("Add Contact")
+    logger.info { "addContact() function invoked" }
 }
 
 fun listContacts(){
-    println("list")
+    logger.info { "listContacts() function invoked" }
 }
 fun updateContact(){
-    println("up Contact")
+    logger.info { "updateContact() function invoked" }
 }
 
 fun deleteContact(){
-    println("deContact")
+    logger.info { "deleteContact() function invoked" }
 }
 
 fun exitApp() {
