@@ -30,9 +30,9 @@ fun runMenu() {
     do {
         when (val option = mainMenu()) {
             1 -> addContact()
-            2 -> listContacts()
+            2 -> listAllContacts()
             3 -> updateContact()
-            4 -> deleteContact()
+            //4 -> deleteContact()
             0 -> exitApp()
             else -> println("Invalid menu choice: $option")
         }
@@ -47,7 +47,7 @@ fun mainMenu():Int {
          > -----------------------------------------------------  
          > | CONTACT MENU                                      |
          > |   1) Add a contact                                 |
-         > |   2) List contacts                                 |
+         > |   2) List ALL contacts                                 |
          > |   3) Update a contact                              |
          > |   4) Delete a contact                              |
          > -----------------------------------------------------  
@@ -94,17 +94,36 @@ private fun readGroups(): MutableSet<Group> {
     return groups
 }
 */
-fun listContacts(){
-    logger.info { "listContacts() function invoked" }
+fun listAllContacts() {
+    println(contactAPI.listAllContacts())
 }
 fun updateContact(){
     logger.info { "updateContact() function invoked" }
 }
 
-fun deleteContact(){
-    logger.info { "deleteContact() function invoked" }
+/*fun deleteContact() {
+    listContacts()
+    if (contactAPI.numberOfContacts() > 0) {
+        // only ask the user to choose the contact to delete if contacts exist
+        val id = readNextInt("Enter the id of the contact to delete: ")
+        val contactToDelete = contactAPI.findContact(id)
+        if (contactToDelete != null) {
+            val isDeleted = contactAPI.delete(id)
+            if (isDeleted) {
+                println("Contact Delete Successful!")
+            } else {
+                println("Contact Delete NOT Successful!")
+            }
+        } else {
+            println("Contact not found.")
+        }
+    } else {
+        println("No contacts found.")
+    }
 }
 
+
+ */
 fun exitApp() {
     println("Exiting...bye")
     exitProcess(0)
