@@ -18,4 +18,15 @@ object Utilities {
         groupsToFormat
             .joinToString(separator = "\n") { group ->  "\t$group" }
 
+
+    @JvmStatic
+    fun validRange(numberToCheck: Int, min: Int, max: Int): Boolean {
+        return numberToCheck in min..max
+    }
+
+    @JvmStatic
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
+    }
+
 }
