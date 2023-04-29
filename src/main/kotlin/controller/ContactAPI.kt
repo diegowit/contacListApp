@@ -33,7 +33,7 @@ fun findContact(id: Int): Contact? {
 
 
     //Delete a contact from the ArrayList by ID.
-   /* fun delete(id: Int): Boolean {
+    fun delete(id: Int): Boolean {
         val contactToDelete = findContact(id)
         if (contactToDelete != null) {
             contacts.remove(contactToDelete)
@@ -41,10 +41,10 @@ fun findContact(id: Int): Contact? {
         }
         return false
     }
-*/
+
 
     fun listAllContacts(): String =
-        if (contacts.isEmpty())  "No notes stored"
+        if (contacts.isEmpty())  "No Contact stored"
         else formatListString(contacts)
 
     fun numberOfContacts(): Int {
