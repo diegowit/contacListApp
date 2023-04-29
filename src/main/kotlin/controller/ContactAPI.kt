@@ -1,6 +1,7 @@
 package controller
 
 import models.Contact
+
 import java.util.ArrayList
 
 class ContactAPI() {
@@ -11,14 +12,12 @@ class ContactAPI() {
     private var lastId = 0
     private fun getId() = lastId++
 
-}
-/*
 
     fun add(contact: Contact): Boolean {
-        contact.contactId = getId()
         return contacts.add(contact)
     }
-
+}
+    /*
     // Delete a contact from the ArrayList by ID.
     fun delete(id: Int): Boolean {
         val contactToDelete = findContact(id)

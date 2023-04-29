@@ -6,7 +6,7 @@ data class Contact(
     var lastName: String,
     var phone: String,
     var email: String,
-    var groups: MutableSet<Group> = mutableSetOf()
+    //var groups: MutableSet<Group> = mutableSetOf()
 ) {
     private var lastGroupId = 0
     private fun getGroupId() = lastGroupId++
