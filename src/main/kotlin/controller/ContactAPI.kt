@@ -1,12 +1,9 @@
 package controller
 
-/*
 import models.Contact
-import models.Groups
-import utils.Utilities.formatListString
 import java.util.ArrayList
 
-class ContactsAPI() {
+class ContactAPI() {
 
     private var contacts = ArrayList<Contact>()
 
@@ -45,4 +42,4 @@ class ContactsAPI() {
 
 
 }
-*/
+

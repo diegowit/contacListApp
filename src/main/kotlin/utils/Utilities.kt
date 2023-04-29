@@ -1,6 +1,5 @@
 package utils
 
-package utils
 
 import models.Contact
 import models.Group
