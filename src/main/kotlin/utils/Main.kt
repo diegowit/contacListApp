@@ -49,7 +49,8 @@ fun mainMenu():Int {
          > |   1) Add a contact                                 |
          > |   2) List ALL contacts                                 |
          > |   3) Update a contact                              |
-         > |   4) Delete a contact                              |
+         > |   4) Delete a contact  
+         >                             |
          > -----------------------------------------------------  
          > |   0) Exit                                          |
          > -----------------------------------------------------  
