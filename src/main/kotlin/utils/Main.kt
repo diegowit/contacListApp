@@ -98,8 +98,28 @@ private fun readGroups(): MutableSet<Group> {
 fun listAllContacts() {
     println(contactAPI.listAllContacts())
 }
-fun updateContact(){
-    logger.info { "updateContact() function invoked" }
+fun updateContact() {
+    listAllContacts()
+    if (contactAPI.numberOfContacts() > 0) {
+        //only ask the user to choose the contact if contacts exist
+        val id = readNextInt("Enter the id of the contact to update: ")
+        if (contactAPI.isValidId(id)) {
+            val firstName = readNextLine("Enter the first name of the contact: ")
+            val lastName = readNextLine("Enter the last name of the contact: ")
+            val phone = readValidPhone("Enter the phone number of the contact (XXX-XXX-XXXX): ")
+            val email = readValidEmail("Enter the email of the contact: ")
+           // val groups = readGroups("Enter the groups of the contact separated by commas: ")
+
+            //pass the id of the contact and the new contact details to ContactAPI for updating and check for success.
+            if (contactAPI.updateContact(id, Contact(firstName = firstName, lastName = lastName, phone = phone, email = email))) {
+                println("Update Successful!")
+            } else {
+                println("Update Failed!")
+            }
+        } else {
+            println("There are no contacts with this ID.")
+        }
+    }
 }
 
 fun deleteContact() {

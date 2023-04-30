@@ -18,18 +18,16 @@ class ContactAPI() {
         return contacts.add(contact)
     }
 
-
-
-
-// Find a contact in the ArrayList by ID.
-fun findContact(id: Int): Contact? {
-    for (contact in contacts) {
-        if (contact.id == id) {
-            return contact
+    // Find a contact in the ArrayList by ID.
+    fun findContact(id: Int): Contact? {
+        for (contact in contacts) {
+            if (contact.id == id) {
+                return contact
+            }
         }
+        return null
     }
-    return null
-}
+
 
 
     //Delete a contact from the ArrayList by ID.
@@ -42,6 +40,23 @@ fun findContact(id: Int): Contact? {
         return false
     }
 
+    fun updateContact(id: Int, updatedContact: Contact): Boolean {
+        val contactToUpdate = findContact(id)
+        if (contactToUpdate != null) {
+            contactToUpdate.apply {
+                firstName = updatedContact.firstName
+                lastName = updatedContact.lastName
+                phone = updatedContact.phone
+                email = updatedContact.email
+               // groups = updatedContact.groups
+            }
+            return true
+        }
+        return false
+    }
+
+
+
 
     fun listAllContacts(): String =
         if (contacts.isEmpty())  "No Contact stored"
@@ -51,7 +66,16 @@ fun findContact(id: Int): Contact? {
         return contacts.size
     }
 
+    fun isValidId(id: Int): Boolean {
+        return contacts.any { it.id == id }
+    }
+    private fun formatListString(contactsToFormat : List<Contact>) : String =
+        contactsToFormat
+            .joinToString (separator = "\n") { contact ->
+                contacts.indexOf(contact).toString() + ": " + contact.toString() }
 
 }
+
+
 
 
