@@ -3,27 +3,23 @@ import controller.ContactAPI
 import models.Contact
 import models.Group
 import mu.KotlinLogging
-import utils.ScannerInput.readNextChar
+
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import kotlin.system.exitProcess
 import java.util.*
-/*import persistence.JSONSerializer*/
-import utils.CategoryUtility
-import utils.ScannerInput
+import persistence.JSONSerializer
 
 import utils.ValidateInput.readValidEmail
 import utils.ValidateInput.readValidPhone
-
 import java.io.File
-import java.lang.System.exit
 
 private val logger = KotlinLogging.logger {}
 
-val scanner = Scanner(System.`in`)
 
-private val contactAPI = ContactAPI()
 
+
+private val contactAPI = ContactAPI(JSONSerializer(File("Contact.json")))
 fun main() = runMenu()
 
 fun runMenu() {
@@ -33,6 +29,10 @@ fun runMenu() {
             2 -> listAllContacts()
             3 -> updateContact()
             4 -> deleteContact()
+            5 -> addGroupToContact()
+            20  -> save()
+            21  -> load()
+
             0 -> exitApp()
             else -> println("Invalid menu choice: $option")
         }
@@ -40,19 +40,24 @@ fun runMenu() {
 }
 
 fun mainMenu():Int {
-    return ScannerInput.readNextInt(
+    return readNextInt(
         """
          > -----------------------------------------------------  
          > |                  CONTACT LIST APP                 |
          > -----------------------------------------------------  
          > | CONTACT MENU                                      |
-         > |   1) Add a contact                                 |
-         > |   2) List ALL contacts                                 |
-         > |   3) Update a contact                              |
-         > |   4) Delete a contact  
-         >                             |
+         > |   1) Add a contact                                |
+         > |   2) List ALL contacts                            |
+         > |   3) Update a contact                             |
+         > |   4) Delete a contact                             |
+         > |   5) Add group To contact                         |
+         > |                                                   |
+         > -----------------------------------------------------                                                 |
+         > |   20) Save notes                                  |
+         > |   21) Load notes                                  |
+         >                                                     |
          > -----------------------------------------------------  
-         > |   0) Exit                                          |
+         > |   0) Exit                                         |
          > -----------------------------------------------------  
          > ==>> """.trimMargin(">"))
 
@@ -77,27 +82,14 @@ fun addContact() {
     }
 }
 
-/*
-private fun readGroups(): MutableSet<Group> {
-    val groups = mutableSetOf<Group>()
-    var addAnotherGroup = true
 
-    do {
-        val groupName = readNextLine("Enter a group name (leave blank to finish): ").trim()
 
-        if (groupName.isNotEmpty()) {
-            groups.add(Group(groupName))
-        } else {
-            addAnotherGroup = false
-        }
-    } while (addAnotherGroup)
 
-    return groups
-}
-*/
 fun listAllContacts() {
     println(contactAPI.listAllContacts())
 }
+
+
 fun updateContact() {
     listAllContacts()
     if (contactAPI.numberOfContacts() > 0) {
@@ -122,6 +114,8 @@ fun updateContact() {
     }
 }
 
+
+
 fun deleteContact() {
     listAllContacts()
     if (contactAPI.numberOfContacts() > 0) {
@@ -145,8 +139,43 @@ fun deleteContact() {
 
 
 
-fun exitApp() {
-    println("Exiting...bye")
-    exitProcess(0)
+fun addGroupToContact() {
+    listAllContacts()
+    if (contactAPI.numberOfContacts() > 0) {
+        // only ask the user to choose the contact if contacts exist
+        val contactId = readNextInt("Enter the ID of the contact to add a group to: ")
+        if (contactAPI.isValidId(contactId)) {
+            val contact = contactAPI.findContact(contactId)
+            if (contact != null) {
+                if (contact.addGroup(Group(groupName = readNextLine("\t Group Name:"))))
+                    println("Add Successful")
+                else println("Add not Successful")
+            }
+        }
+    }
 }
+
+
+
+fun save() {
+    try {
+        contactAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        contactAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+        fun exitApp() {
+            println("Exiting...bye")
+            exitProcess(0)
+        }
+
+
 

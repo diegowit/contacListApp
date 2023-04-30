@@ -24,9 +24,5 @@ object Utilities {
         return numberToCheck in min..max
     }
 
-    @JvmStatic
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
-        return (index >= 0 && index < list.size)
-    }
 
 }
