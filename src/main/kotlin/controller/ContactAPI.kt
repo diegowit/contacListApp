@@ -5,7 +5,11 @@ import persistence.Serializer
 import utils.Utilities.formatListString
 
 import java.util.ArrayList
-
+/**
+ * The `ContactAPI` class is responsible for managing contacts.
+ *
+ * @ contacts An ArrayList of Contact objects.
+ */
 class ContactAPI(serializerType: Serializer) {
 
     private var serializer: Serializer = serializerType
@@ -16,6 +20,13 @@ class ContactAPI(serializerType: Serializer) {
     private var lastId = 0
     private fun getId() = lastId++
 
+
+    /**
+     * Add a contact to the `contacts` ArrayList.
+     *
+     * @param contact The contact object to add.
+     * @return `true` if the contact was added successfully, `false` otherwise.
+     */
     // Add a new contact to the ArrayList.
     fun add(contact: Contact): Boolean {
         contact.id = getId()
