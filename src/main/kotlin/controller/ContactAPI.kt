@@ -33,6 +33,7 @@ class ContactAPI(serializerType: Serializer) {
         return contacts.add(contact)
     }
 
+
     // Find a contact in the ArrayList by ID.
     fun findContact(id: Int): Contact? {
         for (contact in contacts) {
@@ -69,10 +70,13 @@ class ContactAPI(serializerType: Serializer) {
     }
 
     // List all contacts in the system.
-    fun listAllContacts(): String =
-        if (contacts.isEmpty()) "No Contact stored"
-        else formatListString(contacts)
-
+    fun listAllContacts(): String {
+        return if (contacts.isEmpty()) {
+            "No contacts available"
+        } else {
+            contacts.joinToString(separator = "\n") { it.toString() }
+        }
+    }
     // Get the number of contacts in the system.
     fun numberOfContacts(): Int {
         return contacts.size
@@ -81,6 +85,24 @@ class ContactAPI(serializerType: Serializer) {
     // Check if an ID is valid.
     fun isValidId(id: Int): Boolean {
         return contacts.any { it.id == id }
+    }
+
+
+    fun listContactsByGroup(groupName: String): List<Contact> {
+        return contacts.filter { contact ->
+            contact.groups.any { group ->
+                group.groupName.equals(groupName, ignoreCase = true)
+            }
+        }
+    }
+
+    fun listContactsByLastName(): Map<String, List<Contact>> {
+        return contacts.groupBy { it.lastName }
+    }
+
+
+    fun listContactsByPhoneNumber(phoneNumber: String): List<Contact> {
+        return contacts.filter { it.phone == phoneNumber }
     }
 
 
@@ -96,6 +118,8 @@ class ContactAPI(serializerType: Serializer) {
     fun store() {
         serializer.write(contacts)
     }
+
+
 
 
     private fun formatListString(contactsToFormat : List<Contact>) : String =
