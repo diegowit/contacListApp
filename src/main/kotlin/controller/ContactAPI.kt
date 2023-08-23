@@ -33,6 +33,7 @@ class ContactAPI(serializerType: Serializer) {
         return contacts.add(contact)
     }
 
+
     // Find a contact in the ArrayList by ID.
     fun findContact(id: Int): Contact? {
         for (contact in contacts) {

@@ -20,52 +20,110 @@ private val logger = KotlinLogging.logger {}
 
 
 private val contactAPI = ContactAPI(JSONSerializer(File("Contact.json")))
-fun main() = runMenu()
+fun main() = runMainMenu()
 
-fun runMenu() {
+fun runMainMenu() {
     do {
         when (val option = mainMenu()) {
-            1 -> addContact()
-            2 -> listAllContacts()
-            3 -> updateContact()
-            4 -> deleteContact()
-            5 -> addGroupToContact()
-            20  -> save()
-            21  -> load()
-
+            1 -> runContactMenu()
+            2 -> runGroupMenu()
             0 -> exitApp()
             else -> println("Invalid menu choice: $option")
         }
     } while (true)
 }
 
-fun mainMenu():Int {
+fun mainMenu(): Int {
     return readNextInt(
         """
          > -----------------------------------------------------  
          > |                  CONTACT LIST APP                 |
          > -----------------------------------------------------  
-         > | CONTACT MENU                                      |
+         > | MAIN MENU                                         |
+         > |   1) Contact Menu                                 |
+         > |   2) Group Menu                                   |
+         > |                                                   |
+         > -----------------------------------------------------  
+         > |   0) Exit                                         |
+         > -----------------------------------------------------  
+         > ==>> """.trimMargin(">"))
+}
+
+fun runContactMenu() {
+    do {
+        when (val option = contactMenu()) {
+            1 -> addContact()
+            2 -> listAllContacts()
+            3 -> updateContact()
+            4 -> deleteContact()
+            5 -> addGroupToContact()
+            20 -> save()
+            21 -> load()
+            0 -> return // Return to main menu
+            else -> println("Invalid menu choice: $option")
+        }
+    } while (true)
+}
+
+fun contactMenu(): Int {
+    return readNextInt(
+        """
+         > -----------------------------------------------------  
+         > |                  CONTACT MENU                     |
+         > -----------------------------------------------------  
          > |   1) Add a contact                                |
          > |   2) List ALL contacts                            |
          > |   3) Update a contact                             |
          > |   4) Delete a contact                             |
          > |   5) Add group To contact                         |
-         > |                                                   |
-         > -----------------------------------------------------                                                 |
+         > -----------------------------------------------------  
          > |   20) Save notes                                  |
          > |   21) Load notes                                  |
-         >                                                     |
          > -----------------------------------------------------  
-         > |   0) Exit                                         |
+         > |   0) Return to Main Menu                          |
          > -----------------------------------------------------  
          > ==>> """.trimMargin(">"))
-
 }
 
 
+fun runGroupMenu() {
+    do {
+        when (val option = groupMenu()) {
+            1 -> addGroup()
+            2 -> listAllGroups()
+            0 -> return // Return to main menu
+            else -> println("Invalid menu choice: $option")
+        }
+    } while (true)
+}
 
+fun groupMenu(): Int {
+    return readNextInt(
+        """
+         > -----------------------------------------------------  
+         > |                  GROUP MENU                       |
+         > -----------------------------------------------------  
+         > |   1) Add a group                                  |
+         > |   2) List ALL groups                              |
+         > -----------------------------------------------------  
+         > |   0) Return to Main Menu                          |
+         > -----------------------------------------------------  
+         > ==>> """.trimMargin(">"))
+}
 
+fun addGroup() {
+    val groupName = readNextLine("Enter group name: ")
+    // Add your logic to add the group here, for example:
+    // val isAdded = groupAPI.add(Group(groupName = groupName))
+    // if (isAdded) println("Group added successfully!") else println("Failed to add group")
+    println("Group '$groupName' added!") // Placeholder
+}
+
+fun listAllGroups() {
+    // Add your logic to list all groups here, for example:
+    // println(groupAPI.listAllGroups())
+    println("List of all groups...") // Placeholder
+}
 fun addContact() {
     //logger.info { "addContact() function invoked" }
     val firstName = readNextLine("Enter first name: ")
@@ -148,6 +206,7 @@ fun addGroupToContact() {
             val contact = contactAPI.findContact(contactId)
             if (contact != null) {
                 if (contact.addGroup(Group(groupName = readNextLine("\t Group Name:"))))
+
                     println("Add Successful")
                 else println("Add not Successful")
             }
