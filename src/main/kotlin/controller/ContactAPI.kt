@@ -1,5 +1,5 @@
 package controller
-
+import models.Group
 import models.Contact
 import persistence.Serializer
 import utils.Utilities.formatListString
@@ -11,10 +11,11 @@ import java.util.ArrayList
  * @ contacts An ArrayList of Contact objects.
  */
 class ContactAPI(serializerType: Serializer) {
+    private var contacts: MutableList<Contact> = mutableListOf()
 
     private var serializer: Serializer = serializerType
 
-    private var contacts = ArrayList<Contact>()
+
 
     // To manage id in the system
     private var lastId = 0
@@ -77,6 +78,10 @@ class ContactAPI(serializerType: Serializer) {
             contacts.joinToString(separator = "\n") { it.toString() }
         }
     }
+
+
+
+
     // Get the number of contacts in the system.
     fun numberOfContacts(): Int {
         return contacts.size
@@ -98,6 +103,7 @@ class ContactAPI(serializerType: Serializer) {
 
     fun listContactsByLastName(): Map<String, List<Contact>> {
         return contacts.groupBy { it.lastName }
+
     }
 
 
@@ -127,7 +133,43 @@ class ContactAPI(serializerType: Serializer) {
             .joinToString (separator = "\n") { contact ->
                 contacts.indexOf(contact).toString() + ": " + contact.toString() }
 
+
+
+
+    fun listContactsByTag(tag: String): List<Contact> {
+        return contacts.filter { it.hasTag(tag) }
+    }
+
+    // Function to add tag to a specific contact by ID
+    fun addTagToContact(contactId: Int, tag: String): Boolean {
+        val contact = contacts.find { it.id == contactId }
+        return contact?.addTag(tag) ?: false
+    }
+
+    // Function to remove tag from a specific contact by ID
+    fun removeTagFromContact(contactId: Int, tag: String): Boolean {
+        val contact = contacts.find { it.id == contactId }
+        return contact?.removeTag(tag) ?: false
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
 
 
 
