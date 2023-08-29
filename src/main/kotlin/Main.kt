@@ -69,6 +69,7 @@ fun runContactMenu() {
             3 -> updateContact()
             4 -> deleteContact()
             5 -> addGroupToContact()
+            6 -> runTagMenu()
             20 -> save()
             21 -> load()
             0 -> return // Return to main menu
@@ -84,13 +85,14 @@ fun contactMenu(): Int {
          > |                  CONTACT MENU                     |
          > -----------------------------------------------------  
          > |   1) Add a contact                                |
-         > |   2) Listing Menu                           |
+         > |   2) Listing Menu                                 |
          > |   3) Update a contact                             |
          > |   4) Delete a contact                             |
          > |   5) Add group To contact                         |
+         > |   6) Contact Tags Menu                            |
          > -----------------------------------------------------  
-         > |   20) Save notes                                  |
-         > |   21) Load notes                                  |
+         > |   20) Save  Contacts                                  |
+         > |   21) Load Contacts                      |
          > -----------------------------------------------------  
          > |   0) Return to Main Menu                          |
          > -----------------------------------------------------  
@@ -316,7 +318,7 @@ fun runGroupMenu() {
     do {
         when (val option = groupMenu()) {
             1 -> addGroup()
-            2 -> listGroups()
+           // -> listAllGroups()
 
             0 -> return // Return to main menu
             else -> println("Invalid menu choice: $option")
@@ -330,7 +332,7 @@ fun groupMenu(): Int {
          > |                  GROUP MENU                       |
          > -----------------------------------------------------  
          > |   1) Add a group                                   |
-         > |   2) list All groups                                |
+   
          > -----------------------------------------------------  
          > |   0) Return to Main Menu                           |
          > -----------------------------------------------------  
@@ -346,8 +348,80 @@ fun addGroup() {
 
 
 
-fun listGroups() {
+/**
+ *
+ *  Tags
+ *
+ */
 
+fun runTagMenu() {
+    do {
+        when (val option = tagMenu()) {
+            1 -> addTagToContact()
+            2 -> removeTagFromContact()
+            3 -> listContactsByTag()
+            0 -> return // Return to contact menu
+            else -> println("Invalid menu choice: $option")
+        }
+    } while (true)
+}
+
+fun tagMenu(): Int {
+    return readNextInt(
+        """
+         > -----------------------------------------------------  
+         > |                  TAG MENU                         |
+         > -----------------------------------------------------  
+         > |   1) Add a tag                                     |
+         > |   2) Remove Tag                 
+         > |   3) List Contacts by tag
+         > -----------------------------------------------------  
+         > |   0) Return to Contact Menu                        |
+         > -----------------------------------------------------  
+         > ==>> """.trimMargin(">"))
+}
+
+
+
+
+fun listContactsByTag() {
+    val tagName = readNextLine("Enter tag name to list contacts by: ")
+    val contactsByTag = contactAPI.listContactsByTag(tagName)
+    if (contactsByTag.isEmpty()) {
+        println("No contacts found for the tag '$tagName'.")
+    } else {
+        println("Listing contacts by tag '$tagName':")
+        contactsByTag.forEach { println(it) }
+    }
+}
+
+fun addTagToContact() {
+    val contactId = readNextLine("Enter the contact ID to which you want to add a tag: ").toIntOrNull()
+    if (contactId == null) {
+        println("Invalid ID format. Operation aborted.")
+        return
+    }
+    val tagName = readNextLine("Enter the tag name: ")
+    if (contactAPI.addTagToContact(contactId, tagName)) {
+        println("Tag '$tagName' added to contact with ID $contactId.")
+    } else {
+        println("Failed to add tag. Please check if the contact ID is correct.")
+    }
+}
+
+
+fun removeTagFromContact() {
+    val contactId = readNextLine("Enter the contact ID from which you want to remove a tag: ").toIntOrNull()
+    if (contactId == null) {
+        println("Invalid ID format. Operation aborted.")
+        return
+    }
+    val tagName = readNextLine("Enter the tag name: ")
+    if (contactAPI.removeTagFromContact(contactId, tagName)) {
+        println("Tag '$tagName' removed from contact with ID $contactId.")
+    } else {
+        println("Failed to remove tag. Please check if the contact ID and tag are correct.")
+    }
 }
 
 
