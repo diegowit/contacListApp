@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import kotlin.test.assertEquals
 
-class UtilitiesTest {
+class UtilitiesTest  {
 
     @Test
     fun validRangeWorksWithPositiveTestData() {
