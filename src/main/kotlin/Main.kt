@@ -7,7 +7,6 @@ import mu.KotlinLogging
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
 import kotlin.system.exitProcess
-import java.util.*
 import persistence.JSONSerializer
 
 import utils.ValidateInput.readValidEmail

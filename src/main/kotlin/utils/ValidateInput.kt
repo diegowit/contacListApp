@@ -1,7 +1,7 @@
 package utils
 
 
-import utils.ScannerInput.readNextInt
+
 import java.util.*
 
 object ValidateInput {
