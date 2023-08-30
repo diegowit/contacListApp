@@ -1,6 +1,5 @@
 package models
-import models.Group
-import utils.Utilities
+
 data class Contact(
     var id: Int = 0,
     var firstName: String,

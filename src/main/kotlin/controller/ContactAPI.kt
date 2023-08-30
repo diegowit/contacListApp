@@ -1,8 +1,7 @@
 package controller
-import models.Group
 import models.Contact
 import persistence.Serializer
-import utils.Utilities.formatListString
+
 
 import java.util.ArrayList
 /**
