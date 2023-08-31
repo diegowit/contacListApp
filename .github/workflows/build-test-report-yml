@@ -23,3 +23,14 @@ jobs:
       # Runs the Gradle build task
       - name: Run the Gradle Build
         run: ./gradlew build
+
+# Runs the Gradle build task, but without running the JUnit tests
+      - name: Run the Gradle Build
+        run: ./gradlew build -x test
+        
+      # Builds a 'fat' jar file with the dependencies from Gradle
+      - name: Archive Jar with Dependencies
+        uses: actions/upload-artifact@v2
+        with:
+          name: Jar with Dependencies
+          path: build/libs
