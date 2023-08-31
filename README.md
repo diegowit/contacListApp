@@ -1,17 +1,28 @@
-Contact List System
+
+
+# Contact List System
 The Contact List System is a command-line application that allows users to create, manage, and organize contacts.
 
-Features
+## Features
 The Contact List System offers the following features:
 
-Add a contact: Users can add new contacts by entering their first name, last name, phone number, and email address.
-List all contacts: Users can view a list of all contacts in the system.
-Update a contact: Users can update the information of an existing contact by entering their ID and providing the new information.
-Delete a contact: Users can delete a contact by entering their ID.
-Add a group to a contact: Users can create groups and add them to contacts.
-List contacts by group: Users can view all contacts that belong to a specific group.
-Save and load contacts: Users can save their contacts to a file and load them later.
-Getting Started
+### Add a contact: Users can add new contacts by entering their first name, last name, phone number, and email address.
+
+
+### List all contacts: Users can view a list of all contacts in the system.
+
+
+### Update a contact: Users can update the information of an existing contact by entering their ID and providing the new information.
+
+### Delete a contact: Users can delete a contact by entering their ID.
+
+### Add a group to a contact: Users can create groups and add them to contacts.
+
+### List contacts by group: Users can view all contacts that belong to a specific group.
+
+### Save and load contacts: Users can save their contacts to a file and load them later.
+
+## Getting Started
 To use the Contact List System, follow these steps:
 
 Clone the repository.
