@@ -3,24 +3,24 @@ import controller.ContactAPI
 import models.Contact
 import models.Group
 import mu.KotlinLogging
-
+import persistence.JSONSerializer
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
-import kotlin.system.exitProcess
-import persistence.JSONSerializer
-
 import utils.ValidateInput.readValidEmail
 import utils.ValidateInput.readValidPhone
 import java.io.File
+import kotlin.system.exitProcess
 
 private val logger = KotlinLogging.logger {}
 
-
-
+// Initialize the ContactAPI with JSONSerializer
 
 private val contactAPI = ContactAPI(JSONSerializer(File("Contact.json")))
 fun main() = runMainMenu()
 
+/**
+ * Runs the main menu loop.
+ */
 fun runMainMenu() {
     do {
         when (val option = mainMenu()) {
@@ -31,6 +31,7 @@ fun runMainMenu() {
         }
     } while (true)
 }
+
 /**
  *
  *  Main Menu
@@ -61,9 +62,9 @@ fun mainMenu(): Int {
 ╚═══════════════════════════════════════════════════╝
 ║                  0    Exit                        ║
 ╚═══════════════════════════════════════════════════╝
-==>> """.trimMargin())
+==>> """.trimMargin()
+    )
 }
-
 
 /**
  *
@@ -106,20 +107,22 @@ fun contactMenu(): Int {
 ╚═══════════════════════════════════════════════════╝
 ║   0) Return to Main Menu                          ║
 ╚═══════════════════════════════════════════════════╝
-==>> """.trimMargin(">"))
+==>> """.trimMargin(">")
+    )
 }
 
-
-
 fun addContact() {
-    //logger.info { "addContact() function invoked" }
+    // Prompt user for contact details
     val firstName = readNextLine("Enter first name: ")
     val lastName = readNextLine("Enter last name: ")
     val phone = readValidPhone("Enter phone number (e.g. +1-555-555-5555): ")
     val email = readValidEmail("Enter email address: ")
-    // val groups = readGroups()
+
+
+    // Attempt to add the contact using ContactAPI
     val isAdded = contactAPI.add(Contact(firstName = firstName, lastName = lastName, phone = phone, email = email))
 
+    // Provide feedback based on success
     if (isAdded) {
         println("Contact added successfully!")
     } else {
@@ -127,21 +130,23 @@ fun addContact() {
     }
 }
 
-
-
 fun updateContact() {
+    // Display list of contacts
     listAllContacts()
+
+    // Check if contacts exist before proceeding
     if (contactAPI.numberOfContacts() > 0) {
-        //only ask the user to choose the contact if contacts exist
         val id = readNextInt("Enter the id of the contact to update: ")
+
+        // Check if the provided ID is valid
         if (contactAPI.isValidId(id)) {
+            // Prompt user for updated contact details
             val firstName = readNextLine("Enter the first name of the contact: ")
             val lastName = readNextLine("Enter the last name of the contact: ")
             val phone = readValidPhone("Enter the phone number of the contact (XXX-XXX-XXXX): ")
             val email = readValidEmail("Enter the email of the contact: ")
-            // val groups = readGroups("Enter the groups of the contact separated by commas: ")
 
-            //pass the id of the contact and the new contact details to ContactAPI for updating and check for success.
+            // Attempt to update the contact using ContactAPI
             if (contactAPI.updateContact(id, Contact(firstName = firstName, lastName = lastName, phone = phone, email = email))) {
                 println("Update Successful!")
             } else {
@@ -153,15 +158,18 @@ fun updateContact() {
     }
 }
 
-
-
 fun deleteContact() {
+    // Display list of contacts
     listAllContacts()
+
+    // Check if contacts exist before proceeding
     if (contactAPI.numberOfContacts() > 0) {
-        // only ask the user to choose the contact to delete if contacts exist
         val id = readNextInt("Enter the id of the contact to delete: ")
         val contactToDelete = contactAPI.findContact(id)
+
+        // Check if the contact exists before attempting to delete
         if (contactToDelete != null) {
+            // Attempt to delete the contact using ContactAPI
             val isDeleted = contactAPI.delete(id)
             if (isDeleted) {
                 println("Contact Delete Successful!")
@@ -176,26 +184,29 @@ fun deleteContact() {
     }
 }
 
-
-
 fun addGroupToContact() {
+    // Display list of contacts
     listAllContacts()
+
+    // Check if contacts exist before proceeding
     if (contactAPI.numberOfContacts() > 0) {
-        // only ask the user to choose the contact if contacts exist
         val contactId = readNextInt("Enter the ID of the contact to add a group to: ")
+
+        // Check if the provided ID is valid
         if (contactAPI.isValidId(contactId)) {
             val contact = contactAPI.findContact(contactId)
-            if (contact != null) {
-                if (contact.addGroup(Group(groupName = readNextLine("\t Group Name:"))))
 
+            // Check if the contact exists before adding a group
+            if (contact != null) {
+                if (contact.addGroup(Group(groupName = readNextLine("Enter Group Name:")))) {
                     println("Add Successful")
-                else println("Add not Successful")
+                } else {
+                    println("Add not Successful")
+                }
             }
         }
     }
 }
-
-
 
 fun save() {
     try {
@@ -213,7 +224,8 @@ fun load() {
     }
 }
 fun exitApp() {
-    println("_______  _______  _______    __   __  _______  __   __    _______  _______  _______  __    _ \n" +
+    println(
+        "_______  _______  _______    __   __  _______  __   __    _______  _______  _______  __    _ \n" +
             "|       ||       ||       |  |  | |  ||       ||  | |  |  |       ||       ||       ||  |  | |\n" +
             "|  _____||    ___||    ___|  |  |_|  ||   _   ||  | |  |  |  _____||   _   ||   _   ||   |_| |\n" +
             "| |_____ |   |___ |   |___   |       ||  | |  ||  |_|  |  | |_____ |  | |  ||  | |  ||       |\n" +
@@ -223,19 +235,16 @@ fun exitApp() {
             "                                                                                              \n" +
             "\n" +
             "      Thank you for using Contact List App!\n" +
-            "Exiting... Have a great day!")
+            "Exiting... Have a great day!"
+    )
     exitProcess(0)
 }
-
-
-
 
 /**
  *
  *  Listing Contacts
  *
  */
-
 
 fun runListingMenu() {
     do {
@@ -263,14 +272,18 @@ fun listingMenu(): Int {
 ├───────────────────────────────────────────────────┤
 │   0) Return to Previous Menu                      │
 ╰───────────────────────────────────────────────────╯
-==>> """.trimMargin(">"))
+==>> """.trimMargin(">")
+    )
 }
 
-
 fun listContactsByGroup() {
+    // Prompt user for group name
     val groupName = readNextLine("Enter group name to list contacts by: ")
+
+    // Get contacts in the specified group using ContactAPI
     val contactsInGroup = contactAPI.listContactsByGroup(groupName)
 
+    // Display the results
     if (contactsInGroup.isEmpty()) {
         println("No contacts found in the group '$groupName'")
     } else {
@@ -281,10 +294,11 @@ fun listContactsByGroup() {
     }
 }
 
-
 fun listContactsByLastName() {
+    // Get contacts grouped by last name using ContactAPI
     val contactsByLastName = contactAPI.listContactsByLastName()
 
+    // Display the results
     if (contactsByLastName.isEmpty()) {
         println("No contacts found")
     } else {
@@ -298,11 +312,14 @@ fun listContactsByLastName() {
     }
 }
 
-
 fun listContactsByPhoneNumber() {
+    // Prompt user for phone number
     val phoneNumber = readNextLine("Enter phone number to list contacts by: ")
+
+    // Get contacts with the specified phone number using ContactAPI
     val contactsByPhoneNumber = contactAPI.listContactsByPhoneNumber(phoneNumber)
 
+    // Display the results
     if (contactsByPhoneNumber.isEmpty()) {
         println("No contacts found with phone number '$phoneNumber'")
     } else {
@@ -313,15 +330,10 @@ fun listContactsByPhoneNumber() {
     }
 }
 
-
-
-
-
 fun listAllContacts() {
+    // Display all contacts using ContactAPI
     println(contactAPI.listAllContacts())
 }
-
-
 
 /**
  *
@@ -329,14 +341,11 @@ fun listAllContacts() {
  *
  */
 
-
-
-
 fun runGroupMenu() {
     do {
         when (val option = groupMenu()) {
             1 -> addGroup()
-           // -> listAllGroups()
+            // -> listAllGroups()
 
             0 -> return // Return to main menu
             else -> println("Invalid menu choice: $option")
@@ -354,17 +363,15 @@ fun groupMenu(): Int {
 ├───────────────────────────────────────────────────┤
 │   0) Return to Main Menu                          │
 ╰───────────────────────────────────────────────────╯
-==>> """.trimMargin(">"))
+==>> """.trimMargin(">")
+    )
 }
 
 fun addGroup() {
     val groupName = readNextLine("Enter group name: ")
 
-
     println("Group '$groupName' added!") // Placeholder
 }
-
-
 
 /**
  *
@@ -396,13 +403,18 @@ fun tagMenu(): Int {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    0) Return to Contact Menu
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-==>> """.trimMargin(">"))
+==>> """.trimMargin(">")
+    )
 }
 
-
 fun listContactsByTag() {
+    // Prompt user for tag name
     val tagName = readNextLine("Enter tag name to list contacts by: ")
+
+    // Get contacts with the specified tag using ContactAPI
     val contactsByTag = contactAPI.listContactsByTag(tagName)
+
+    // Display the results
     if (contactsByTag.isEmpty()) {
         println("No contacts found for the tag '$tagName'.")
     } else {
@@ -412,12 +424,15 @@ fun listContactsByTag() {
 }
 
 fun addTagToContact() {
+    // Prompt user for contact ID and tag name
     val contactId = readNextLine("Enter the contact ID to which you want to add a tag: ").toIntOrNull()
     if (contactId == null) {
         println("Invalid ID format. Operation aborted.")
         return
     }
     val tagName = readNextLine("Enter the tag name: ")
+
+    // Attempt to add the tag to the contact using ContactAPI
     if (contactAPI.addTagToContact(contactId, tagName)) {
         println("Tag '$tagName' added to contact with ID $contactId.")
     } else {
@@ -425,43 +440,19 @@ fun addTagToContact() {
     }
 }
 
-
 fun removeTagFromContact() {
+    // Prompt user for contact ID and tag name
     val contactId = readNextLine("Enter the contact ID from which you want to remove a tag: ").toIntOrNull()
     if (contactId == null) {
         println("Invalid ID format. Operation aborted.")
         return
     }
     val tagName = readNextLine("Enter the tag name: ")
+
+    // Attempt to remove the tag from the contact using ContactAPI
     if (contactAPI.removeTagFromContact(contactId, tagName)) {
         println("Tag '$tagName' removed from contact with ID $contactId.")
     } else {
         println("Failed to remove tag. Please check if the contact ID and tag are correct.")
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

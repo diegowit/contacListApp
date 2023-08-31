@@ -1,50 +1,42 @@
 package controller
+
 import models.Contact
 import persistence.Serializer
-
-
 import java.util.ArrayList
+
 /**
  * The `ContactAPI` class is responsible for managing contacts.
  *
- * @ contacts An ArrayList of Contact objects.
+ * @param serializerType The type of serializer to use for data storage.
  */
 class ContactAPI(serializerType: Serializer) {
-    private var contacts: MutableList<Contact> = mutableListOf()
 
+    private var contacts: MutableList<Contact> = mutableListOf()
     private var serializer: Serializer = serializerType
 
-
-
-    // To manage id in the system
     private var lastId = 0
-    private fun getId() = lastId++
 
+    private fun generateNewId(): Int {
+        return lastId++
+    }
 
     /**
-     * Add a contact to the `contacts` ArrayList.
+     * Add a contact to the `contacts` list.
      *
      * @param contact The contact object to add.
      * @return `true` if the contact was added successfully, `false` otherwise.
      */
-    // Add a new contact to the ArrayList.
     fun add(contact: Contact): Boolean {
-        contact.id = getId()
+        contact.id = generateNewId()
         return contacts.add(contact)
     }
 
-
-    // Find a contact in the ArrayList by ID.
+    // Find a contact in the list by ID.
     fun findContact(id: Int): Contact? {
-        for (contact in contacts) {
-            if (contact.id == id) {
-                return contact
-            }
-        }
-        return null
+        return contacts.find { it.id == id }
     }
 
-    // Delete a contact from the ArrayList by ID.
+    // Delete a contact from the list by ID.
     fun delete(id: Int): Boolean {
         val contactToDelete = findContact(id)
         if (contactToDelete != null) {
@@ -54,7 +46,7 @@ class ContactAPI(serializerType: Serializer) {
         return false
     }
 
-    // Update a contact in the ArrayList by ID.
+    // Update a contact in the list by ID.
     fun updateContact(id: Int, updatedContact: Contact): Boolean {
         val contactToUpdate = findContact(id)
         if (contactToUpdate != null) {
@@ -78,9 +70,6 @@ class ContactAPI(serializerType: Serializer) {
         }
     }
 
-
-
-
     // Get the number of contacts in the system.
     fun numberOfContacts(): Int {
         return contacts.size
@@ -91,7 +80,7 @@ class ContactAPI(serializerType: Serializer) {
         return contacts.any { it.id == id }
     }
 
-
+    // List contacts by group name.
     fun listContactsByGroup(groupName: String): List<Contact> {
         return contacts.filter { contact ->
             contact.groups.any { group ->
@@ -100,76 +89,49 @@ class ContactAPI(serializerType: Serializer) {
         }
     }
 
+    // List contacts grouped by last name.
     fun listContactsByLastName(): Map<String, List<Contact>> {
         return contacts.groupBy { it.lastName }
-
     }
 
-
+    // List contacts by phone number.
     fun listContactsByPhoneNumber(phoneNumber: String): List<Contact> {
         return contacts.filter { it.phone == phoneNumber }
     }
 
-
-
-
-
+    // Load contacts from storage.
     @Throws(Exception::class)
     fun load() {
         contacts = serializer.read() as ArrayList<Contact>
     }
 
+    // Store contacts to storage.
     @Throws(Exception::class)
     fun store() {
         serializer.write(contacts)
     }
 
+    // Format contacts as a string.
+    private fun formatListString(contactsToFormat: List<Contact>): String {
+        return contactsToFormat.joinToString(separator = "\n") { contact ->
+            "${contacts.indexOf(contact)}: $contact"
+        }
+    }
 
-
-
-    private fun formatListString(contactsToFormat : List<Contact>) : String =
-        contactsToFormat
-            .joinToString (separator = "\n") { contact ->
-                contacts.indexOf(contact).toString() + ": " + contact.toString() }
-
-
-
-
+    // List contacts by tag.
     fun listContactsByTag(tag: String): List<Contact> {
         return contacts.filter { it.hasTag(tag) }
     }
 
-    // Function to add tag to a specific contact by ID
+    // Function to add a tag to a specific contact by ID.
     fun addTagToContact(contactId: Int, tag: String): Boolean {
         val contact = contacts.find { it.id == contactId }
         return contact?.addTag(tag) ?: false
     }
 
-    // Function to remove tag from a specific contact by ID
+    // Function to remove a tag from a specific contact by ID.
     fun removeTagFromContact(contactId: Int, tag: String): Boolean {
         val contact = contacts.find { it.id == contactId }
         return contact?.removeTag(tag) ?: false
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-

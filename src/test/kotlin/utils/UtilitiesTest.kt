@@ -1,6 +1,5 @@
 package utils
 
-
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import utils.Utilities.validRange
@@ -9,7 +8,7 @@ import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 import kotlin.test.assertEquals
 
-class UtilitiesTest  {
+class UtilitiesTest {
 
     @Test
     fun validRangeWorksWithPositiveTestData() {
@@ -67,6 +66,4 @@ class UtilitiesTest  {
 
         assertEquals(expectedEmail, actualEmail)
     }
-
-
 }
