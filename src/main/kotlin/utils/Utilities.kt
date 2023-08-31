@@ -1,6 +1,5 @@
 package utils
 
-
 import models.Contact
 import models.Group
 // NOTE: JvmStatic annotation means that the methods are static i.e. we can call them over the class
@@ -11,18 +10,15 @@ object Utilities {
     @JvmStatic
     fun formatListString(contactsToFormat: List<Contact>): String =
         contactsToFormat
-            .joinToString(separator = "\n") { contact ->  "$contact" }
+            .joinToString(separator = "\n") { contact -> "$contact" }
 
     @JvmStatic
     fun formatSetString(groupsToFormat: Set<Group>): String =
         groupsToFormat
-            .joinToString(separator = "\n") { group ->  "\t$group" }
-
+            .joinToString(separator = "\n") { group -> "\t$group" }
 
     @JvmStatic
     fun validRange(numberToCheck: Int, min: Int, max: Int): Boolean {
         return numberToCheck in min..max
     }
-
-
 }

@@ -18,7 +18,7 @@ data class Contact(
     var phone: String,
     var email: String,
     var groups: MutableSet<Group> = mutableSetOf(),
-    var tags: MutableSet<String> = mutableSetOf()  // Tags associated with the contact
+    var tags: MutableSet<String> = mutableSetOf() // Tags associated with the contact
 ) {
     private var lastGroupId = 0
 

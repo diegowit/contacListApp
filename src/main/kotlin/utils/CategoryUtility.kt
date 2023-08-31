@@ -1,10 +1,9 @@
 package utils
 import java.util.*
 
-
 object CategoryUtility {
 
-    //NOTE: JvmStatic annotation means that the categories variable is static (i.e. we can reference it through the class
+    // NOTE: JvmStatic annotation means that the categories variable is static (i.e. we can reference it through the class
     //      name; we don't have to create an object of CategoryUtility to use it.
     fun isValidPhone(phoneNumber: String): Boolean {
         val regex = "^[+]?[0-9]{10,13}\$"
@@ -17,5 +16,3 @@ object CategoryUtility {
         return email.matches(regex.toRegex())
     }
 }
-
-

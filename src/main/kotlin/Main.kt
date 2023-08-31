@@ -3,19 +3,15 @@ import controller.ContactAPI
 import models.Contact
 import models.Group
 import mu.KotlinLogging
-
+import persistence.JSONSerializer
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
-import kotlin.system.exitProcess
-import persistence.JSONSerializer
-
 import utils.ValidateInput.readValidEmail
 import utils.ValidateInput.readValidPhone
 import java.io.File
+import kotlin.system.exitProcess
 
 private val logger = KotlinLogging.logger {}
-
-
 
 // Initialize the ContactAPI with JSONSerializer
 
@@ -35,8 +31,6 @@ fun runMainMenu() {
         }
     } while (true)
 }
-
-
 
 /**
  *
@@ -68,14 +62,9 @@ fun mainMenu(): Int {
 ╚═══════════════════════════════════════════════════╝
 ║                  0    Exit                        ║
 ╚═══════════════════════════════════════════════════╝
-==>> """.trimMargin())
+==>> """.trimMargin()
+    )
 }
-
-
-
-
-
-
 
 /**
  *
@@ -118,9 +107,9 @@ fun contactMenu(): Int {
 ╚═══════════════════════════════════════════════════╝
 ║   0) Return to Main Menu                          ║
 ╚═══════════════════════════════════════════════════╝
-==>> """.trimMargin(">"))
+==>> """.trimMargin(">")
+    )
 }
-
 
 fun addContact() {
     // Prompt user for contact details
@@ -128,6 +117,7 @@ fun addContact() {
     val lastName = readNextLine("Enter last name: ")
     val phone = readValidPhone("Enter phone number (e.g. +1-555-555-5555): ")
     val email = readValidEmail("Enter email address: ")
+
 
     // Attempt to add the contact using ContactAPI
     val isAdded = contactAPI.add(Contact(firstName = firstName, lastName = lastName, phone = phone, email = email))
@@ -234,7 +224,8 @@ fun load() {
     }
 }
 fun exitApp() {
-    println("_______  _______  _______    __   __  _______  __   __    _______  _______  _______  __    _ \n" +
+    println(
+        "_______  _______  _______    __   __  _______  __   __    _______  _______  _______  __    _ \n" +
             "|       ||       ||       |  |  | |  ||       ||  | |  |  |       ||       ||       ||  |  | |\n" +
             "|  _____||    ___||    ___|  |  |_|  ||   _   ||  | |  |  |  _____||   _   ||   _   ||   |_| |\n" +
             "| |_____ |   |___ |   |___   |       ||  | |  ||  |_|  |  | |_____ |  | |  ||  | |  ||       |\n" +
@@ -244,22 +235,16 @@ fun exitApp() {
             "                                                                                              \n" +
             "\n" +
             "      Thank you for using Contact List App!\n" +
-            "Exiting... Have a great day!")
+            "Exiting... Have a great day!"
+    )
     exitProcess(0)
 }
-
-
-
 
 /**
  *
  *  Listing Contacts
  *
  */
-
-
-
-
 
 fun runListingMenu() {
     do {
@@ -287,9 +272,9 @@ fun listingMenu(): Int {
 ├───────────────────────────────────────────────────┤
 │   0) Return to Previous Menu                      │
 ╰───────────────────────────────────────────────────╯
-==>> """.trimMargin(">"))
+==>> """.trimMargin(">")
+    )
 }
-
 
 fun listContactsByGroup() {
     // Prompt user for group name
@@ -350,22 +335,17 @@ fun listAllContacts() {
     println(contactAPI.listAllContacts())
 }
 
-
-
 /**
  *
  *  Groups
  *
  */
 
-
-
-
 fun runGroupMenu() {
     do {
         when (val option = groupMenu()) {
             1 -> addGroup()
-           // -> listAllGroups()
+            // -> listAllGroups()
 
             0 -> return // Return to main menu
             else -> println("Invalid menu choice: $option")
@@ -383,25 +363,21 @@ fun groupMenu(): Int {
 ├───────────────────────────────────────────────────┤
 │   0) Return to Main Menu                          │
 ╰───────────────────────────────────────────────────╯
-==>> """.trimMargin(">"))
+==>> """.trimMargin(">")
+    )
 }
 
 fun addGroup() {
     val groupName = readNextLine("Enter group name: ")
 
-
     println("Group '$groupName' added!") // Placeholder
 }
-
-
 
 /**
  *
  *  Tags
  *
  */
-
-
 
 fun runTagMenu() {
     do {
@@ -427,7 +403,8 @@ fun tagMenu(): Int {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    0) Return to Contact Menu
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-==>> """.trimMargin(">"))
+==>> """.trimMargin(">")
+    )
 }
 
 fun listContactsByTag() {
@@ -479,26 +456,3 @@ fun removeTagFromContact() {
         println("Failed to remove tag. Please check if the contact ID and tag are correct.")
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

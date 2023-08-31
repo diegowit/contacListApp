@@ -114,7 +114,7 @@ class ContactAPI(serializerType: Serializer) {
     // Format contacts as a string.
     private fun formatListString(contactsToFormat: List<Contact>): String {
         return contactsToFormat.joinToString(separator = "\n") { contact ->
-            "${contacts.indexOf(contact)}: ${contact.toString()}"
+            "${contacts.indexOf(contact)}: $contact"
         }
     }
 
@@ -135,23 +135,3 @@ class ContactAPI(serializerType: Serializer) {
         return contact?.removeTag(tag) ?: false
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,7 +1,5 @@
 package utils
 
-
-
 import java.util.*
 
 object ValidateInput {

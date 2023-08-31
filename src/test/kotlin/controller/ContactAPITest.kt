@@ -70,7 +70,6 @@ class ContactAPITest {
             )
         }
 
-
         @Nested
         inner class DeleteContacts {
 
@@ -91,7 +90,6 @@ class ContactAPITest {
             }
         }
 
-
         @Nested
         inner class ListContacts {
 
@@ -110,7 +108,5 @@ class ContactAPITest {
                 assertTrue(contactsString.contains("lukas"))
             }
         }
-
-
     }
 }
